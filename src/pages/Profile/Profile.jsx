@@ -266,11 +266,11 @@ const Profile = () => {
           <div>
             {/* LEVEL */}
 
-            <h2 className="mt-2 text-2xl font-black text-[#2f5233]">
+            <h2 className="mt-2 text-xl font-black text-[#2f5233]">
               {user?.name?.charAt(0).toUpperCase() + user?.name?.slice(1)}
             </h2>
 
-            <h2 className=" text-base font-semibold text-[#2f5233] flex items-center gap-2">
+            <h2 className=" text-base font-semibold text-[#2f5233] flex items-center gap-2 text-[13px]">
               <FiMail size={20} /> {user?.email}
             </h2>
           </div>

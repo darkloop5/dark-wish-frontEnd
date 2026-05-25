@@ -23,6 +23,7 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       const res = await createUser(data).unwrap();
+    
       if (res.success) {
         dispatch(
           setCredentials({
