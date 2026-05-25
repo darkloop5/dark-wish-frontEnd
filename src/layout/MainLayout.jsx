@@ -9,7 +9,7 @@ import { LuReceipt } from "react-icons/lu";
 const MainLayout = () => {
   return (
     <div
-      className="
+      className=" font-montserrat
         relative min-h-screen
         bg-gradient-to-br
         from-[#eef7f0]
