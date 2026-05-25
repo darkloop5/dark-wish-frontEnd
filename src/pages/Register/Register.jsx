@@ -34,7 +34,7 @@ const Register = () => {
         toast.success("Account Created Successfully 🚀");
         reset();
 
-        // navigate("/home", { replace: true });
+        navigate("/profile", { replace: true });
       }
     } catch (err) {
       toast.error(err?.data?.message || "Registration Failed");
