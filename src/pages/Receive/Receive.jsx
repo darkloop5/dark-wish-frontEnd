@@ -10,6 +10,7 @@ import {
 } from "../../redux/services/received/ReceivedApiServices";
 import bkashIcon from "../../assets/icons/bkash.svg";
 import nagadIcon from "../../assets/icons/nagad.png";
+import rocketIcon from "../../assets/icons/rocket.png";
 import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
@@ -270,13 +271,21 @@ const Receive = () => {
                       }`}
                     />
 
-                    <img
-                      src={item.walletType === "bkash" ? bkashIcon : nagadIcon}
-                      alt="wallet"
-                      className={`w-auto relative z-10 drop-shadow-lg ${
-                        item.walletType === "nagad" ? "h-auto" : "h-10"
-                      }`}
-                    />
+                   <img
+  src={
+    item.walletType === "bkash"
+      ? bkashIcon
+      : item.walletType === "nagad"
+      ? nagadIcon
+      : rocketIcon
+  }
+  alt="wallet"
+  className={`w-auto relative z-10 drop-shadow-lg ${
+    item.walletType === "nagad" || item.walletType === "rocket"
+      ? "h-auto"
+      : "h-10"
+  }`}
+/>
                   </div>
 
                   <div>
@@ -301,7 +310,7 @@ const Receive = () => {
                     Received
                   </span>
 
-                  <p className="text-xs text-[#7d8f80] mt-3">⏰ {item?.time}</p>
+                  <p className="text-xs text-[#7d8f80] mt-3 font-semibold">⏰ {item?.time}</p>
                 </div>
               </div>
             </div>
@@ -334,6 +343,7 @@ const Receive = () => {
             >
               <Option value="bkash">bKash</Option>
               <Option value="nagad">Nagad</Option>
+              <Option value="rocket">Rocket</Option>
             </Select>
           </div>
 

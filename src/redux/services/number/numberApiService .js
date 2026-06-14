@@ -17,14 +17,16 @@ export const numberApiService =  baseApi.injectEndpoints({
     // =========================
     getNumbersByUser: builder.query({
       query: (userId) => `/numbers/${userId}`,
-      providesTags: (result, error, userId) => [
+       providesTags: (result, error, userId) => [
         { type: "Numbers", id: userId },
+        { type: "Numbers", id: "LIST" },
       ],
     }),
      getOnlyNumbersByUser: builder.query({
       query: (userId) => `/numbers-only/${userId}`,
-      providesTags: (result, error, userId) => [
+     providesTags: (result, error, userId) => [
         { type: "Numbers", id: userId },
+        { type: "Numbers", id: "LIST" },
       ],
     }),
 

@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 
 import bkashIcon from "../../assets/icons/bkash.svg";
 import nagadIcon from "../../assets/icons/nagad.png";
+import rocketIcon from "../../assets/icons/rocket.png";
 import {
   useAddNumberMutation,
   useDeleteNumberMutation,
@@ -179,14 +180,22 @@ hover:shadow-[0_0_25px_rgba(106,153,78,0.25)]"
                         : "bg-orange-400/40"
                     }`}
                   />
-
-                  <img
-                    src={item.walletType === "bkash" ? bkashIcon : nagadIcon}
-                    alt="wallet"
-                    className={`w-auto relative z-10 drop-shadow-lg ${
-                      item.walletType === "nagad" ? "h-auto" : "h-10"
-                    }`}
-                  />
+<img
+  src={
+    item.walletType === "bkash"
+      ? bkashIcon
+      : item.walletType === "nagad"
+      ? nagadIcon
+      : rocketIcon
+  }
+  alt="wallet"
+  className={`w-auto relative z-10 drop-shadow-lg ${
+    item.walletType === "nagad" || item.walletType === "rocket"
+      ? "h-auto"
+      : "h-10"
+  }`}
+/>
+                 
                 </div>
 
                 <div>
@@ -264,6 +273,7 @@ hover:shadow-[0_0_25px_rgba(106,153,78,0.25)]"
             >
               <Option value="bkash">bKash</Option>
               <Option value="nagad">Nagad</Option>
+              <Option value="rocket">Rocket</Option>
             </Select>
           </div>
 

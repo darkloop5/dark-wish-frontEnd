@@ -18,14 +18,22 @@ export const authApiService = baseApi.injectEndpoints({
       }),
     }),
     // RESET USER DAILY LIMIT (NEW)
-    resetUserDailyLimit: build.mutation({
-      query: (userId) => ({
-        url: "/reset-user-daily-limit",
-        method: "POST",
-        body: { userId },
-      }),
-    }),
+  resetUserDailyLimit: build.mutation({
+  query: (userId) => ({
+    url: "/reset-user-daily-limit",
+    method: "POST",
+    body: { userId },
+  }),
+  invalidatesTags: (result, error, userId) => [
+    { type: "Numbers", id: userId },
+    { type: "Numbers" , id: "LIST"},
+  ],
+}),
   }),
 });
 
-export const { useLoginUserMutation, useCreateUserMutation ,useResetUserDailyLimitMutation} = authApiService;
+export const {
+  useLoginUserMutation,
+  useCreateUserMutation,
+  useResetUserDailyLimitMutation,
+} = authApiService;

@@ -40,7 +40,7 @@ const Register = () => {
     } catch (err) {
       toast.error(err?.data?.message || "Registration Failed");
     }
-    console.log(data);
+   
   };
 
   return (

@@ -81,7 +81,7 @@ const Profile = () => {
           if (res.success) {
             toast.success(res?.message || "Reset Done 🎉");
             await refetch();
-            await ref
+            await ref()
           }
         } catch (error) {
           console.log(error);

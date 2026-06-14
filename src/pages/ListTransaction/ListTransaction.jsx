@@ -4,6 +4,7 @@ import useAuthData from "../../hooks/useAuthData";
 import { useGetTotalSendQuery } from "../../redux/services/transaction/transactionApiService";
 import bkashIcon from "../../assets/icons/bkash.svg";
 import nagadIcon from "../../assets/icons/nagad.png";
+import rocketIcon from "../../assets/icons/rocket.png"
 import { ArrowLeft, CreditCard, TrendingUp, Wallet } from "lucide-react";
 const ListTransaction = () => {
   const location = useLocation();
@@ -159,11 +160,18 @@ const ListTransaction = () => {
                     />
 
                     {/* icon */}
-                    <img
-                      src={tx.walletType === "bkash" ? bkashIcon : nagadIcon}
-                      alt="wallet"
-                      className="w-10 relative z-10 drop-shadow-lg"
-                    />
+                   {/* icon */}
+<img
+  src={
+    tx.walletType === "bkash"
+      ? bkashIcon
+      : tx.walletType === "nagad"
+      ? nagadIcon
+      : rocketIcon
+  }
+  alt="wallet"
+  className="w-10 relative z-10 drop-shadow-lg"
+/>
                   </div>
 
                   {/* TEXT */}

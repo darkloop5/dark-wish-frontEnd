@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import bkashIcon from "../../assets/icons/bkash.svg";
 import nagadIcon from "../../assets/icons/nagad.png";
+import rocketIcon from "../../assets/icons/rocket.png";
 import { useGetNumbersByUserQuery } from "../../redux/services/number/numberApiService ";
 import {
   useAddTransactionMutation,
@@ -12,9 +13,12 @@ import {
 import useAuthData from "../../hooks/useAuthData";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { GrFormAdd } from "react-icons/gr";
 
 const Details = () => {
   const [open, setOpen] = useState(false);
+  const [accountNumber, setAccountNumber] = useState(null);
+  const [walletType, setWalletType] = useState(null);
   const { user } = useAuthData();
   const navigate = useNavigate();
   const userId = user?.userId;
@@ -38,7 +42,7 @@ const Details = () => {
   });
 
   const onSubmit = async (formData) => {
-    const { accountNumber, transactionType, amount, walletType } = formData;
+    const { transactionType, amount } = formData;
 
     // ======================
     // VALIDATION
@@ -81,6 +85,8 @@ const Details = () => {
           },
         });
 
+        setWalletType(null);
+        setAccountNumber(null);
         reset();
         setOpen(false);
         refetch();
@@ -94,11 +100,14 @@ const Details = () => {
     }
   };
 
+  
+
   // ======================
   // OPEN MODAL
   // ======================
-  const openModal = () => {
+  const openModal = (accountNumber) => {
     setOpen(true);
+    setAccountNumber(accountNumber);
   };
 
   const handletr = (tx) => {
@@ -113,17 +122,23 @@ const Details = () => {
     { value: "send_money", label: "Send Money" },
     { value: "cash_out", label: "Cash Out" },
   ];
+
+ 
+
   return (
     <div className="relative h-screen overflow-hidden bg-gradient-to-br from-[#edf7ee] via-[#f7fff8] to-[#dcefdc]">
       {/* HEADER */}
       <div className="sticky top-0 z-20 h-16 flex items-center justify-center bg-white/20 backdrop-blur-3xl border-b border-white/30">
-        <button onClick={() => navigate(-1)} className=" cursor-pointer absolute shadow-xl left-4 w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-[#4f772d]">
-                <ArrowLeft size={22} />
-              </button>
+        <button
+          onClick={() => navigate(-1)}
+          className=" cursor-pointer absolute shadow-xl left-4 w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center text-[#4f772d]"
+        >
+          <ArrowLeft size={22} />
+        </button>
 
         <h1 className="text-xl font-black text-[#2f5233]">Transaction</h1>
 
-        <button
+        {/* <button
           onClick={openModal}
           className="absolute right-4 h-11 px-4 rounded-2xl cursor-pointer
                   bg-gradient-to-r from-[#6a994e] to-[#4f772d]
@@ -131,7 +146,7 @@ const Details = () => {
         >
           <Plus size={18} />
           Submit
-        </button>
+        </button> */}
       </div>
 
       {/* TRANSACTION LIST */}
@@ -206,7 +221,7 @@ const Details = () => {
             ))}
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-5">
             {data?.data?.map((tx) => (
               <div
                 key={tx._id}
@@ -218,7 +233,7 @@ const Details = () => {
       transition-all duration-300"
               >
                 {/* TOP SECTION */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                   {/* LEFT */}
                   <div className="flex items-center gap-3">
                     <div className="relative w-12 h-12 flex items-center justify-center">
@@ -226,11 +241,20 @@ const Details = () => {
                         className={`absolute inset-0 rounded-full blur-xl ${
                           tx.walletType === "bkash"
                             ? "bg-pink-400/40"
-                            : "bg-orange-400/40"
+                            : tx.walletType === "nagad"
+                              ? "bg-orange-400/40"
+                              : "bg-blue-400/40"
                         }`}
                       />
+
                       <img
-                        src={tx.walletType === "bkash" ? bkashIcon : nagadIcon}
+                        src={
+                          tx.walletType === "bkash"
+                            ? bkashIcon
+                            : tx.walletType === "nagad"
+                              ? nagadIcon
+                              : rocketIcon
+                        }
                         alt="wallet"
                         className="w-10 relative z-10 drop-shadow-lg"
                       />
@@ -256,18 +280,18 @@ const Details = () => {
                         onClick={() => {
                           handletr(tx);
                         }}
-                        className="relative w-10 h-10 flex items-center justify-center rounded-full
+                        className="relative w-7 h-7 flex items-center justify-center rounded-full
       bg-gradient-to-br from-[#6a994e] to-[#4f772d]
       shadow-lg cursor-pointer hover:scale-110 transition"
                       >
-                        <ArrowRight className="text-white w-5 h-5" />
+                        <ArrowRight className="text-white w-4 h-4" />
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* 🔥 LIMIT SECTION (NEW) */}
-                <div className=" grid grid-cols-2  text-xs text-gray-600 justify-between">
+                <div className=" grid grid-cols-2  text-xs text-gray-600 justify-between relative">
                   <div className="bg-white/30 rounded-lg p-2">
                     <p className="font-semibold">Send Today</p>
                     <p className="font-bold text-red-600 text-base">
@@ -296,6 +320,19 @@ const Details = () => {
                     </p>
                   </div>
                 </div>
+                <div className="flex justify-end h-2">
+                  <div
+                    onClick={() => {
+                      openModal(tx.accountNumber);
+                      setWalletType(tx.walletType);
+                    }}
+                    className="relative w-9 h-9 flex items-center justify-center rounded-full
+      bg-gradient-to-br from-[#6a994e] to-[#4f772d]
+      shadow-lg cursor-pointer hover:scale-110 transition"
+                  >
+                    <GrFormAdd className="text-white w-5 h-5" />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -306,78 +343,14 @@ const Details = () => {
         title={<span className="text-[#2f5233] font-bold"></span>}
         width={350}
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setOpen(false);
+          accountNumber(null);
+        }}
         footer={null}
         centered
       >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-          {/* WALLET TYPE (NORMAL SECTION) */}
-          <div>
-            <h2 className="font-bold text-sm mb-1">
-              Wallet Type 💰 (bKash / Nagad)
-            </h2>
-            <Select
-              value={watch("walletType")}
-              onChange={(value) => setValue("walletType", value)}
-              className="w-full"
-              size="large"
-              placeholder="Select wallet type"
-            >
-              <Option value="bkash">
-                <span className="font-semibold">bKash</span>
-              </Option>
-
-              <Option value="nagad">
-                <span className="font-semibold">Nagad</span>
-              </Option>
-            </Select>
-          </div>
-          <div>
-            <h2 className="font-bold text-sm mb-1">Account Number</h2>
-            <Select
-              value={watch("accountNumber")}
-              onChange={(value) => setValue("accountNumber", value)}
-              className="w-full"
-              size="large"
-              placeholder="Select account number"
-              loading={isLoading}
-              notFoundContent={
-                isLoading ? (
-                  <div className="space-y-2">
-                    <Skeleton.Input active block size="small" />
-                    <Skeleton.Input active block size="small" />
-                    <Skeleton.Input active block size="small" />
-                  </div>
-                ) : (
-                  "No numbers found"
-                )
-              }
-            >
-              {isLoading
-                ? [1, 2, 3].map((i) => (
-                    <Option key={i} disabled>
-                      <div className="flex items-center gap-2">
-                        <Skeleton.Input
-                          active
-                          size="small"
-                          style={{ width: 120 }}
-                        />
-                      </div>
-                    </Option>
-                  ))
-                : data?.data?.map((item) => (
-                    <Option key={item._id} value={item.accountNumber}>
-                      <span className="font-semibold">
-                        {item.accountNumber}{" "}
-                        <span className="text-gray-500">
-                          ({item.walletType})
-                        </span>
-                      </span>
-                    </Option>
-                  ))}
-            </Select>
-          </div>
-
           <div>
             <h2 className="font-bold text-sm mb-1">
               Type 💸 (Send Money / Cash Out)
