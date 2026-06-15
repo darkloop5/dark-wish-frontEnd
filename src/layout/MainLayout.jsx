@@ -64,8 +64,8 @@ const MainLayout = () => {
         {/* FOOTER */}
         <div
           className="
-            sticky
-            bottom-0
+          fixed
+            bottom-5
             left-0
             w-full
             z-50
